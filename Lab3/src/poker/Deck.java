@@ -27,6 +27,21 @@ public class Deck {
 		Collections.shuffle(cards);
 		
 	}
+	
+	public Deck(short nbrJokers) {
+		
+		// Creates an ArrayList of Cards with the appropriate number of Jokers
+		Deck deck = new Deck();
+		for (short j = 0; j < nbrJokers; j++) {
+			eRank RankValue = eRank.values()[99];
+			eSuit SuitValue = eSuit.values()[99];
+			Card NewJoker = new Card(SuitValue, RankValue);
+			deck.cards.add(NewJoker);
+		}
+				
+		//Shuffle the cards
+		Collections.shuffle(cards);
+	}
 
 	public Card drawFromDeck() {
 		// Removes the first card from the deck and return the card
