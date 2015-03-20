@@ -16,7 +16,7 @@ public class Hand {
 	private boolean Flush;
 	private boolean Straight;
 	private boolean Ace;
-
+	
 	public Hand(Deck d) {
 		ArrayList<Card> Import = new ArrayList<Card>();
 		for (int x = 0; x < 5; x++) {
@@ -25,6 +25,12 @@ public class Hand {
 		CardsInHand = Import;
 	}
 	
+
+
+	public Hand() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 	public ArrayList<Card> getCards() {
@@ -60,36 +66,74 @@ public class Hand {
 		return h;
 	}	
 	
-	//CONSTRUCRTION ZONE
+	//CONSTRUCRTION ZONE	
+	public static void main(String[] args) {
+		Deck d = new Deck();
+		Hand h = new Hand(d);
+		eSuit Suit = eSuit.JOKER;
+		eRank Rank = eRank.JOKER;
+		Card c = new Card(Suit, Rank);
+		h.CardsInHand.remove(0);
+		h.CardsInHand.add(0,c);
+		eSuit Suit1 = eSuit.CLUBS;
+		eRank Rank1 = eRank.TWO;
+		Card c1 = new Card(Suit1, Rank1);
+		h.CardsInHand.remove(1);
+		h.CardsInHand.add(1,c1);
+		eSuit Suit2 = eSuit.CLUBS;
+		eRank Rank2 = eRank.THREE;
+		Card c2 = new Card(Suit2, Rank2);
+		h.CardsInHand.remove(2);
+		h.CardsInHand.add(2,c2);
+		eSuit Suit3 = eSuit.SPADES;
+		eRank Rank3 = eRank.FOUR;
+		Card c3 = new Card(Suit3, Rank3);
+		h.CardsInHand.remove(3);
+		h.CardsInHand.add(3,c3);
+		eSuit Suit4 = eSuit.CLUBS;
+		eRank Rank4 = eRank.FIVE;
+		Card c4 = new Card(Suit4, Rank4);
+		h.CardsInHand.remove(4);
+		h.CardsInHand.add(4,c4);
+		ArrayList<Hand> a = new ArrayList<Hand>();
+		a.add(h);
+		CheckJoker(a);
+		for (Hand x: a) {
+			System.out.println(x.toString());
+		}
+	}
 	
-	public Hand BestHandWithJokers() {
-		ArrayList<Hand> Hands = new ArrayList<Hand>();
-		Hands.add(this);
-		CheckJoker(Hands,this);
-		for (Card c: CardsInHand) {
-			if (c.getRank() == eRank.JOKER) {
-				Hands.add(this);
-				explodeHands(Hands);
+	public static ArrayList<Hand> CheckJoker(ArrayList<Hand> hands) {
+		for (Hand h: hands) {
+			for (Card c: h.CardsInHand) {
+				if (c.getRank() == eRank.JOKER) {
+					hands.remove(h);
+					explodeHands(hands, h);
+					CheckJoker(hands);
+				}
 			}
 		}
-		Hands.add(this);
-		explodeHands(Hands);
-		return Hands.get(0);	
-	}
-	
-	private void CheckJoker(ArrayList<Hand> hands, Hand hand) {
-		for (Hand h: hand.CardsInHand())
-		
+		return hands;
 	}
 
-
-
-	public ArrayList<Hand> explodeHands(ArrayList<Hand> Hands) {
-		
-		return Hands;
-		
+	public static ArrayList<Hand> explodeHands(ArrayList<Hand> hands, Hand hand) {
+		for (int i = 0; i < 4; i++) { 
+			eSuit Suit = eSuit.values()[i]; //loops through 4 suits
+			for (int j = 0; j < 13; j++) { 
+				eRank Value = eRank.values()[j]; // loops through 13 values
+				Hand temp = new Hand(); // temporary hand that copies hand we passed in
+				temp = hand;
+				Card c = new Card(Suit,Value); // creates a card of the indexed suit/value
+				temp.CardsInHand.remove(0); // removes the first joker
+				temp.CardsInHand.add(0, c); // adds the new card
+				Collections.sort(temp.CardsInHand, Card.CardRank); // SORTS the temp hand 
+				hands.add(temp); // adds temp to arraylist hands
+				//CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
+				}
+			}
+		return hands;
 	}
-	
+
 	
 	
 	//END CONSTRUCTION ZONE
