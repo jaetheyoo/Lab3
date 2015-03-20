@@ -60,6 +60,40 @@ public class Hand {
 		return h;
 	}	
 	
+	//CONSTRUCRTION ZONE
+	
+	public Hand BestHandWithJokers() {
+		ArrayList<Hand> Hands = new ArrayList<Hand>();
+		Hands.add(this);
+		CheckJoker(Hands,this);
+		for (Card c: CardsInHand) {
+			if (c.getRank() == eRank.JOKER) {
+				Hands.add(this);
+				explodeHands(Hands);
+			}
+		}
+		Hands.add(this);
+		explodeHands(Hands);
+		return Hands.get(0);	
+	}
+	
+	private void CheckJoker(ArrayList<Hand> hands, Hand hand) {
+		for (Hand h: hand.CardsInHand())
+		
+	}
+
+
+
+	public ArrayList<Hand> explodeHands(ArrayList<Hand> Hands) {
+		
+		return Hands;
+		
+	}
+	
+	
+	
+	//END CONSTRUCTION ZONE
+	
 	public void EvalHand() {
 		// Evaluates if the hand is a flush and/or straight then figures out
 		// the hand's strength attributes
