@@ -20,8 +20,7 @@ public class PlayHand {
 			}
 			Collections.sort(Hands, Hand.HandRank);
 
-			System.out
-					.print("Hand Strength: " + Hands.get(0).getHandStrength());
+			System.out.print("Hand Strength: " + Hands.get(0).getHandStrength());
 			System.out.print(" Hi Hand: " + Hands.get(0).getHighPairStrength());
 			System.out.print(" Lo Hand: " + Hands.get(0).getLowPairStrength());
 			System.out.print(" Kicker: " + Hands.get(0).getKicker());

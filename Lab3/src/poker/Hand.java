@@ -28,6 +28,11 @@ public class Hand {
 
 
 	public Hand() {
+		ArrayList<Card> EmptyCardsInHand= new ArrayList<Card>(); 
+		for (int x = 0; x < 5; x++) {
+			EmptyCardsInHand.add(null);
+		}
+		this.CardsInHand = EmptyCardsInHand;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -75,41 +80,60 @@ public class Hand {
 		Card c = new Card(Suit, Rank);
 		h.CardsInHand.remove(0);
 		h.CardsInHand.add(0,c);
-		eSuit Suit1 = eSuit.CLUBS;
-		eRank Rank1 = eRank.TWO;
+		eSuit Suit1 = eSuit.JOKER;
+		eRank Rank1 = eRank.JOKER;
 		Card c1 = new Card(Suit1, Rank1);
 		h.CardsInHand.remove(1);
 		h.CardsInHand.add(1,c1);
 		eSuit Suit2 = eSuit.CLUBS;
-		eRank Rank2 = eRank.THREE;
+		eRank Rank2 = eRank.ACE;
 		Card c2 = new Card(Suit2, Rank2);
 		h.CardsInHand.remove(2);
 		h.CardsInHand.add(2,c2);
-		eSuit Suit3 = eSuit.SPADES;
-		eRank Rank3 = eRank.FOUR;
+		eSuit Suit3 = eSuit.CLUBS;
+		eRank Rank3 = eRank.KING;
 		Card c3 = new Card(Suit3, Rank3);
 		h.CardsInHand.remove(3);
 		h.CardsInHand.add(3,c3);
-		eSuit Suit4 = eSuit.CLUBS;
-		eRank Rank4 = eRank.FIVE;
+		eSuit Suit4 = eSuit.SPADES;
+		eRank Rank4 = eRank.QUEEN;
 		Card c4 = new Card(Suit4, Rank4);
 		h.CardsInHand.remove(4);
 		h.CardsInHand.add(4,c4);
 		ArrayList<Hand> a = new ArrayList<Hand>();
 		a.add(h);
+		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(3).getRank()+ " ");
+		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");			
 		CheckJoker(a);
-		for (Hand x: a) {
-			System.out.println(x.toString());
-		}
+		System.out.println("ArrayList size = " + a.size());
+		int sum = 0;
+		Collections.sort(a, Hand.HandRank);
+		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
+		System.out.print(a.get(0).CardsInHand.get(3).getRank()+ " ");
+		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");
+		System.out.print(a.get(1).CardsInHand.get(0).getRank()+ " ");
+		System.out.print(a.get(1).CardsInHand.get(1).getRank()+ " ");
+		System.out.print(a.get(1).CardsInHand.get(2).getRank()+ " ");
+		System.out.print(a.get(1).CardsInHand.get(3).getRank()+ " ");
+		System.out.println(a.get(1).CardsInHand.get(4).getRank()+"\n");
+		System.out.print(a.get(2).CardsInHand.get(0).getRank()+ " ");
+		System.out.print(a.get(2).CardsInHand.get(1).getRank()+ " ");
+		System.out.print(a.get(2).CardsInHand.get(2).getRank()+ " ");
+		System.out.print(a.get(2).CardsInHand.get(3).getRank()+ " ");
+		System.out.println(a.get(2).CardsInHand.get(4).getRank()+"\n");
+		
 	}
 	
 	public static ArrayList<Hand> CheckJoker(ArrayList<Hand> hands) {
 		for (Hand h: hands) {
 			for (Card c: h.CardsInHand) {
 				if (c.getRank() == eRank.JOKER) {
-					hands.remove(h);
-					explodeHands(hands, h);
-					CheckJoker(hands);
+					return explodeHands(hands, h);
 				}
 			}
 		}
@@ -117,18 +141,25 @@ public class Hand {
 	}
 
 	public static ArrayList<Hand> explodeHands(ArrayList<Hand> hands, Hand hand) {
+		hands.remove(hand);
 		for (int i = 0; i < 4; i++) { 
 			eSuit Suit = eSuit.values()[i]; //loops through 4 suits
 			for (int j = 0; j < 13; j++) { 
 				eRank Value = eRank.values()[j]; // loops through 13 values
 				Hand temp = new Hand(); // temporary hand that copies hand we passed in
-				temp = hand;
+				for (int k = 0; k < 5; k++) { //make a deep copy of the arraylist
+					eSuit CloneSuit = hand.CardsInHand.get(k).getSuit();
+					eRank CloneRank = hand.CardsInHand.get(k).getRank();
+					Card clone = new Card(CloneSuit, CloneRank);
+					temp.CardsInHand.set(k, clone);
+				}
+			
 				Card c = new Card(Suit,Value); // creates a card of the indexed suit/value
-				temp.CardsInHand.remove(0); // removes the first joker
-				temp.CardsInHand.add(0, c); // adds the new card
+				temp.CardsInHand.set(0, c); // replaces the first joker with c
+
 				Collections.sort(temp.CardsInHand, Card.CardRank); // SORTS the temp hand 
 				hands.add(temp); // adds temp to arraylist hands
-				//CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
+				CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
 				}
 			}
 		return hands;
