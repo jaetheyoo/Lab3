@@ -9,6 +9,7 @@ public final class Card {
 	/**
 	 * Keep the no-arg constructor private.  I don't want 'Card' created without attributes.
 	 */
+	@SuppressWarnings("unused")
 	private Card()
 	{
 	}

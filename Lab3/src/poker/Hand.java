@@ -11,6 +11,7 @@ public class Hand {
 	private int HiHand;
 	private int LoHand;
 	private int Kicker;
+	@SuppressWarnings("unused")
 	private boolean bScored = false;
 
 	private boolean Flush;
@@ -80,23 +81,23 @@ public class Hand {
 		Card c = new Card(Suit, Rank);
 		h.CardsInHand.remove(0);
 		h.CardsInHand.add(0,c);
-		eSuit Suit1 = eSuit.JOKER;
-		eRank Rank1 = eRank.JOKER;
+		eSuit Suit1 = eSuit.CLUBS;
+		eRank Rank1 = eRank.FOUR;
 		Card c1 = new Card(Suit1, Rank1);
 		h.CardsInHand.remove(1);
 		h.CardsInHand.add(1,c1);
 		eSuit Suit2 = eSuit.CLUBS;
-		eRank Rank2 = eRank.ACE;
+		eRank Rank2 = eRank.FIVE;
 		Card c2 = new Card(Suit2, Rank2);
 		h.CardsInHand.remove(2);
 		h.CardsInHand.add(2,c2);
 		eSuit Suit3 = eSuit.CLUBS;
-		eRank Rank3 = eRank.KING;
+		eRank Rank3 = eRank.SIX;
 		Card c3 = new Card(Suit3, Rank3);
 		h.CardsInHand.remove(3);
 		h.CardsInHand.add(3,c3);
 		eSuit Suit4 = eSuit.SPADES;
-		eRank Rank4 = eRank.QUEEN;
+		eRank Rank4 = eRank.SEVEN;
 		Card c4 = new Card(Suit4, Rank4);
 		h.CardsInHand.remove(4);
 		h.CardsInHand.add(4,c4);
@@ -109,8 +110,7 @@ public class Hand {
 		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");			
 		CheckJoker(a);
 		System.out.println("ArrayList size = " + a.size());
-
-		//Collections.sort(a, Hand);
+		Collections.sort(a, Hand.HandRank);
 		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
@@ -126,7 +126,6 @@ public class Hand {
 		System.out.print(a.get(2).CardsInHand.get(2).getRank()+ " ");
 		System.out.print(a.get(2).CardsInHand.get(3).getRank()+ " ");
 		System.out.println(a.get(2).CardsInHand.get(4).getRank()+"\n");
-		
 	}
 	
 	public static ArrayList<Hand> CheckJoker(ArrayList<Hand> hands) {
@@ -136,6 +135,7 @@ public class Hand {
 					return explodeHands(hands, h);
 				}
 			}
+			h.EvalHand(); //sorts and evalutes hands strength attributes
 		}
 		return hands;
 	}
@@ -146,7 +146,9 @@ public class Hand {
 			eSuit Suit = eSuit.values()[i]; //loops through 4 suits
 			for (int j = 0; j < 13; j++) { 
 				eRank Value = eRank.values()[j]; // loops through 13 values
+				
 				Hand temp = new Hand(); // temporary hand that copies hand we passed in
+				
 				for (int k = 0; k < 5; k++) { //make a deep copy of the arraylist
 					eSuit CloneSuit = hand.CardsInHand.get(k).getSuit();
 					eRank CloneRank = hand.CardsInHand.get(k).getRank();
@@ -155,11 +157,11 @@ public class Hand {
 				}
 			
 				Card c = new Card(Suit,Value); // creates a card of the indexed suit/value
+				
 				temp.CardsInHand.set(0, c); // replaces the first joker with c
 
-				Collections.sort(temp.CardsInHand, Card.CardRank); // SORTS the temp hand 
-				temp.EvalHand();
 				hands.add(temp); // adds temp to arraylist hands
+				
 				CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
 				}
 			}
@@ -352,16 +354,16 @@ public class Hand {
 				return result;
 			}
 			
-			result = h2.LoHand = h1.LoHand;
+			result = h2.LoHand - h1.LoHand;
 			if (result != 0) {
 				return result;
 			}
 
-			result = h2.Kicker = h1.Kicker;
+			result = h2.Kicker - h1.Kicker;
 			if (result != 0) {
 				return result;
 			}
-
+			
 			return 0;
 		}
 	};
