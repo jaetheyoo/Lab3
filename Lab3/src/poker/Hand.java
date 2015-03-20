@@ -109,8 +109,8 @@ public class Hand {
 		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");			
 		CheckJoker(a);
 		System.out.println("ArrayList size = " + a.size());
-		int sum = 0;
-		Collections.sort(a, Hand.HandRank);
+
+		Collections.sort(a, Hand);
 		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
@@ -158,6 +158,7 @@ public class Hand {
 				temp.CardsInHand.set(0, c); // replaces the first joker with c
 
 				Collections.sort(temp.CardsInHand, Card.CardRank); // SORTS the temp hand 
+				temp.EvalHand();
 				hands.add(temp); // adds temp to arraylist hands
 				CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
 				}
