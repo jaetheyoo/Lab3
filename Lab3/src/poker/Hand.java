@@ -110,7 +110,7 @@ public class Hand {
 		CheckJoker(a);
 		System.out.println("ArrayList size = " + a.size());
 
-		Collections.sort(a, Hand);
+		//Collections.sort(a, Hand);
 		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
 		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
