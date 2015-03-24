@@ -84,6 +84,7 @@ public class Hand {
 	
 	public static ArrayList<Hand> CheckJoker(ArrayList<Hand> hands) {
 		for (Hand h: hands) {
+			Collections.sort(h.CardsInHand, Card.CardRank);
 			for (Card c: h.CardsInHand) {
 				if (c.getRank() == eRank.JOKER) {
 					h.Joker = true;
