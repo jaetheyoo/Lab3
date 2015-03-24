@@ -87,7 +87,6 @@ public class Hand {
 			Collections.sort(h.CardsInHand, Card.CardRank);
 			for (Card c: h.CardsInHand) {
 				if (c.getRank() == eRank.JOKER) {
-					h.Joker = true;
 					return explodeHands(hands, h);
 				}
 			}
@@ -116,7 +115,10 @@ public class Hand {
 				
 				temp.CardsInHand.set(0, c); // replaces the first joker with c
 
+				temp.Joker = true;
+				
 				hands.add(temp); // adds temp to arraylist hands
+			
 				CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
 				}
 			}
