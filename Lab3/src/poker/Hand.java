@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Hand {
-	protected ArrayList<Card> CardsInHand; //changed for the purposes of JUnitTest
+	private ArrayList<Card> CardsInHand; //changed for the purposes of JUnitTest
 
 	private int HandStrength;
 	private int HiHand;
@@ -66,7 +66,7 @@ public class Hand {
 		Deck d = new Deck();
 		Hand h = new Hand(d);
 		h.CardsInHand = SeededHand;
-		h.EvalHand();
+		h.BestHandWithJoker().EvalHand();
 		
 		return h;
 	}	
