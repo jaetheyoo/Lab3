@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Hand {
-	private ArrayList<Card> CardsInHand;
+	protected ArrayList<Card> CardsInHand; //changed for the purposes of JUnitTest
 
 	private int HandStrength;
 	private int HiHand;
@@ -17,6 +17,7 @@ public class Hand {
 	private boolean Flush;
 	private boolean Straight;
 	private boolean Ace;
+	private boolean Joker; //Check for joker
 	
 	public Hand(Deck d) {
 		ArrayList<Card> Import = new ArrayList<Card>();
@@ -25,7 +26,6 @@ public class Hand {
 		}
 		CardsInHand = Import;
 	}
-	
 
 
 	public Hand() {
@@ -34,7 +34,6 @@ public class Hand {
 			EmptyCardsInHand.add(null);
 		}
 		this.CardsInHand = EmptyCardsInHand;
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -72,66 +71,22 @@ public class Hand {
 		return h;
 	}	
 	
-	//CONSTRUCRTION ZONE	
-	public static void main(String[] args) {
-		Deck d = new Deck();
-		Hand h = new Hand(d);
-		eSuit Suit = eSuit.JOKER;
-		eRank Rank = eRank.JOKER;
-		Card c = new Card(Suit, Rank);
-		h.CardsInHand.remove(0);
-		h.CardsInHand.add(0,c);
-		eSuit Suit1 = eSuit.CLUBS;
-		eRank Rank1 = eRank.FOUR;
-		Card c1 = new Card(Suit1, Rank1);
-		h.CardsInHand.remove(1);
-		h.CardsInHand.add(1,c1);
-		eSuit Suit2 = eSuit.CLUBS;
-		eRank Rank2 = eRank.FIVE;
-		Card c2 = new Card(Suit2, Rank2);
-		h.CardsInHand.remove(2);
-		h.CardsInHand.add(2,c2);
-		eSuit Suit3 = eSuit.CLUBS;
-		eRank Rank3 = eRank.SIX;
-		Card c3 = new Card(Suit3, Rank3);
-		h.CardsInHand.remove(3);
-		h.CardsInHand.add(3,c3);
-		eSuit Suit4 = eSuit.SPADES;
-		eRank Rank4 = eRank.SEVEN;
-		Card c4 = new Card(Suit4, Rank4);
-		h.CardsInHand.remove(4);
-		h.CardsInHand.add(4,c4);
-		ArrayList<Hand> a = new ArrayList<Hand>();
-		a.add(h);
-		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(3).getRank()+ " ");
-		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");			
-		CheckJoker(a);
-		System.out.println("ArrayList size = " + a.size());
-		Collections.sort(a, Hand.HandRank);
-		System.out.print(a.get(0).CardsInHand.get(0).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(1).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(2).getRank()+ " ");
-		System.out.print(a.get(0).CardsInHand.get(3).getRank()+ " ");
-		System.out.println(a.get(0).CardsInHand.get(4).getRank()+"\n");
-		System.out.print(a.get(1).CardsInHand.get(0).getRank()+ " ");
-		System.out.print(a.get(1).CardsInHand.get(1).getRank()+ " ");
-		System.out.print(a.get(1).CardsInHand.get(2).getRank()+ " ");
-		System.out.print(a.get(1).CardsInHand.get(3).getRank()+ " ");
-		System.out.println(a.get(1).CardsInHand.get(4).getRank()+"\n");
-		System.out.print(a.get(2).CardsInHand.get(0).getRank()+ " ");
-		System.out.print(a.get(2).CardsInHand.get(1).getRank()+ " ");
-		System.out.print(a.get(2).CardsInHand.get(2).getRank()+ " ");
-		System.out.print(a.get(2).CardsInHand.get(3).getRank()+ " ");
-		System.out.println(a.get(2).CardsInHand.get(4).getRank()+"\n");
+	//CONSTRUCRTION ZONE		
+	public Hand BestHandWithJoker() {
+		ArrayList<Hand> Explosion = new ArrayList<Hand>();
+		Collections.sort(this.CardsInHand, Card.CardRank);
+		Explosion.add(this);
+		CheckJoker(Explosion);
+		Collections.sort(CheckJoker(Explosion), Hand.HandRank);
+		Hand BestHand = Explosion.get(0);
+		return BestHand;
 	}
 	
 	public static ArrayList<Hand> CheckJoker(ArrayList<Hand> hands) {
 		for (Hand h: hands) {
 			for (Card c: h.CardsInHand) {
 				if (c.getRank() == eRank.JOKER) {
+					h.Joker = true;
 					return explodeHands(hands, h);
 				}
 			}
@@ -161,14 +116,11 @@ public class Hand {
 				temp.CardsInHand.set(0, c); // replaces the first joker with c
 
 				hands.add(temp); // adds temp to arraylist hands
-				
 				CheckJoker(hands); // recurses the checkJoker in case there are multiple jokers
 				}
 			}
 		return hands;
 	}
-
-	
 	
 	//END CONSTRUCTION ZONE
 	
@@ -227,15 +179,26 @@ public class Hand {
 		}
 
 		// Evaluates the hand type
-		if (Straight == true && Flush == true
-				&& CardsInHand.get(eCardNo.FifthCard.getCardNo()).getRank() == eRank.TEN && Ace) {
+		if (Straight == true && Flush == true && CardsInHand.get(eCardNo.FifthCard.getCardNo()).getRank() == eRank.TEN && Ace && Joker) {
 			ScoreHand(eHandStrength.RoyalFlush, 0, 0, 0);
+		}
+		
+		else if (Straight == true && Flush == true && CardsInHand.get(eCardNo.FifthCard.getCardNo()).getRank() == eRank.TEN && Ace) {
+			ScoreHand(eHandStrength.NaturalRoyalFlush, 0, 0, 0);
 		}
 
 		// Straight Flush
 		else if (Straight == true && Flush == true) {
 			ScoreHand(eHandStrength.StraightFlush, CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank().getRank(), 0, 0);
 		}
+		// Five of a Kind
+		else if (CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.ThirdCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.FourthCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.FifthCard.getCardNo()).getRank()) {
+			ScoreHand(eHandStrength.FiveOfAKind, CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank().getRank(), 0, 0);
+		}
+		
 		// Four of a Kind
 
 		else if (CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank()

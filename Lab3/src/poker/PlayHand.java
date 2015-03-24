@@ -2,26 +2,29 @@ package poker;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class PlayHand {
 
 	public static void main(String[] args) {
 
+		Scanner input = new Scanner(System.in);
+		
+		System.out.print("How many games would you like to play? ");
+		int gCountMax = input.nextInt(); 
 
-
-		for (int gCount = 0; gCount <= 10000; gCount++) {
+		System.out.print("How many jokers would you like to play with? ");
+		int NbrJokers = input.nextInt();
+		
+		for (int gCount = 0; gCount <= gCountMax; gCount++) {
 			ArrayList<Hand> Hands = new ArrayList<Hand>();
-			Deck d = new Deck();
-
+			
+			Deck d = new Deck(NbrJokers);
 			for (int hCnt = 0; hCnt <= 1; hCnt++) {
 				Hand h = new Hand(d);
-				h.EvalHand();
-				Hands.add(h);
+				Hands.add(h.BestHandWithJoker());
 			}
-			//CONSTRUCTION ZONE
-			System.out.println(Hands.size());
-			System.out.println(Hands.get(0).getHandStrength());
-			//END CONSTRUCTION ZONE
+						
 			Collections.sort(Hands, Hand.HandRank);
 			System.out.print("Hand Strength: " + Hands.get(0).getHandStrength() + " |");
 			System.out.print(" Hi Hand: " + Hands.get(0).getHighPairStrength() + " |");
@@ -38,7 +41,7 @@ public class PlayHand {
 			System.out.print("\n");
 
 		}
-
+		input.close();
 	}
 
 }
