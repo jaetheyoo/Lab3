@@ -66,9 +66,11 @@ public class Hand {
 		Deck d = new Deck();
 		Hand h = new Hand(d);
 		h.CardsInHand = SeededHand;
-		h.BestHandWithJoker().EvalHand();
-		
-		return h;
+		Hand b = new Hand(d);
+		b = h.BestHandWithJoker();
+		b.EvalHand();
+
+		return b;
 	}	
 	
 	//CONSTRUCRTION ZONE		
