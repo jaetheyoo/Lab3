@@ -63,6 +63,7 @@ public class PokerJUnitTest {
 				90, h.getHandStrength());
 	}
 	
+	@Test
 	public void testStraightFlushJoker() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
@@ -143,6 +144,7 @@ public class PokerJUnitTest {
 		assertEquals("Expected Flush, but returned somethine else;", 60,
 				h.getHandStrength());
 	}
+	@Test
 	public void testFlushJOKER() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
@@ -169,7 +171,7 @@ public class PokerJUnitTest {
 		assertEquals("Expected Straight, but returned somethine else;", 50,
 				h.getHandStrength());
 	}
-	
+	@Test
 	public void testStraightJOKER() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
@@ -196,7 +198,7 @@ public class PokerJUnitTest {
 		assertEquals("Expected ThreeOfAKind, but returned somethine else;", 40,
 				h.getHandStrength());
 	}
-	
+	@Test
 	public void testThreeOfAKindJOKER() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
@@ -224,6 +226,7 @@ public class PokerJUnitTest {
 				h.getHandStrength());
 	}
 	
+	@Test
 	public void testPair() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.SPADES, eRank.THREE));
@@ -236,6 +239,7 @@ public class PokerJUnitTest {
 		assertEquals("Expected TwoPair, but returned somethine else;", 20,
 				h.getHandStrength());
 	}
+	@Test
 	public void testPairJOKER() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.SPADES, eRank.THREE));
@@ -248,6 +252,7 @@ public class PokerJUnitTest {
 		assertEquals("Expected TwoPair, but returned somethine else;", 20,
 				h.getHandStrength());
 	}	
+	@Test
 	public void HIGHCARD() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.SPADES, eRank.THREE));
@@ -257,7 +262,7 @@ public class PokerJUnitTest {
 		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
 
 		Hand h = Hand.EvalHand(SH);
-		assertEquals("Expected TwoPair, but returned somethine else;", 20,
+		assertEquals("Expected TwoPair, but returned somethine else;", 10,
 				h.getHandStrength());
 	}
 
