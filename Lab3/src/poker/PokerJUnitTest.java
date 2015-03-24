@@ -25,11 +25,11 @@ public class PokerJUnitTest {
 	@Test
 	public void testFiveOfaKind() {
 		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
 		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
+		SH.add(new Card(eSuit.HEARTS, eRank.ACE));
+		SH.add(new Card(eSuit.SPADES, eRank.ACE));
+		SH.add(new Card(eSuit.DIAMONDS, eRank.ACE));
 
 		Hand h = Hand.EvalHand(SH);
 		assertEquals("Expected FiveOfAKind, but returned somethine else;", 110,
