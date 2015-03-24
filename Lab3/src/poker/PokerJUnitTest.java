@@ -62,14 +62,28 @@ public class PokerJUnitTest {
 		assertEquals("Expected StraightFlush, but returned somethine else;",
 				90, h.getHandStrength());
 	}
+	
+	public void testStraightFlushJoker() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
+		SH.add(new Card(eSuit.CLUBS, eRank.FOUR));
+		SH.add(new Card(eSuit.CLUBS, eRank.FIVE));
+		SH.add(new Card(eSuit.CLUBS, eRank.SIX));
+		SH.add(new Card(eSuit.CLUBS, eRank.SEVEN));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected StraightFlush, but returned somethine else;",
+				90, h.getHandStrength());
+	}
+
 
 	@Test
 	public void testFourOfaKind() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
+		SH.add(new Card(eSuit.HEARTS, eRank.ACE));
+		SH.add(new Card(eSuit.DIAMONDS, eRank.ACE));
+		SH.add(new Card(eSuit.SPADES, eRank.ACE));
 		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
 
 		Hand h = Hand.EvalHand(SH);
@@ -81,11 +95,36 @@ public class PokerJUnitTest {
 	public void testFullHouse() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
-		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
+		SH.add(new Card(eSuit.HEARTS, eRank.ACE));
+		SH.add(new Card(eSuit.SPADES, eRank.ACE));
 		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
-		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+		SH.add(new Card(eSuit.HEARTS, eRank.EIGHT));
 
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected FullHouse, but returned somethine else;", 70,
+				h.getHandStrength());
+	}
+	@Test
+	public void testFullHouseREVERSED() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+		SH.add(new Card(eSuit.HEARTS, eRank.EIGHT));
+		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
+		SH.add(new Card(eSuit.HEARTS, eRank.ACE));
+		SH.add(new Card(eSuit.SPADES, eRank.ACE));
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected FullHouse, but returned somethine else;", 70,
+				h.getHandStrength());
+	}
+	
+	@Test
+	public void testFullHouseJOKER() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+		SH.add(new Card(eSuit.HEARTS, eRank.EIGHT));
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
+		SH.add(new Card(eSuit.HEARTS, eRank.ACE));
+		SH.add(new Card(eSuit.SPADES, eRank.ACE));
 		Hand h = Hand.EvalHand(SH);
 		assertEquals("Expected FullHouse, but returned somethine else;", 70,
 				h.getHandStrength());
@@ -95,6 +134,18 @@ public class PokerJUnitTest {
 	public void testFlush() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.CLUBS, eRank.THREE));
+		SH.add(new Card(eSuit.CLUBS, eRank.KING));
+		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
+		SH.add(new Card(eSuit.CLUBS, eRank.TEN));
+		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected Flush, but returned somethine else;", 60,
+				h.getHandStrength());
+	}
+	public void testFlushJOKER() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
 		SH.add(new Card(eSuit.CLUBS, eRank.KING));
 		SH.add(new Card(eSuit.CLUBS, eRank.ACE));
 		SH.add(new Card(eSuit.CLUBS, eRank.TEN));
@@ -118,11 +169,37 @@ public class PokerJUnitTest {
 		assertEquals("Expected Straight, but returned somethine else;", 50,
 				h.getHandStrength());
 	}
+	
+	public void testStraightJOKER() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
+		SH.add(new Card(eSuit.SPADES, eRank.FIVE));
+		SH.add(new Card(eSuit.CLUBS, eRank.FOUR));
+		SH.add(new Card(eSuit.CLUBS, eRank.THREE));
+		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected Straight, but returned somethine else;", 50,
+				h.getHandStrength());
+	}
 
 	@Test
 	public void testThreeOfAKind() {
 		ArrayList<Card> SH = new ArrayList<Card>();
 		SH.add(new Card(eSuit.SPADES, eRank.SIX));
+		SH.add(new Card(eSuit.SPADES, eRank.SIX));
+		SH.add(new Card(eSuit.CLUBS, eRank.SIX));
+		SH.add(new Card(eSuit.CLUBS, eRank.THREE));
+		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected ThreeOfAKind, but returned somethine else;", 40,
+				h.getHandStrength());
+	}
+	
+	public void testThreeOfAKindJOKER() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
 		SH.add(new Card(eSuit.SPADES, eRank.SIX));
 		SH.add(new Card(eSuit.CLUBS, eRank.SIX));
 		SH.add(new Card(eSuit.CLUBS, eRank.THREE));
@@ -146,8 +223,42 @@ public class PokerJUnitTest {
 		assertEquals("Expected TwoPair, but returned somethine else;", 30,
 				h.getHandStrength());
 	}
+	
+	public void testPair() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.SPADES, eRank.THREE));
+		SH.add(new Card(eSuit.SPADES, eRank.SIX));
+		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+		SH.add(new Card(eSuit.DIAMONDS, eRank.EIGHT));
+		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
 
-	//Pair(20),
-	//HighCard(10);
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected TwoPair, but returned somethine else;", 20,
+				h.getHandStrength());
+	}
+	public void testPairJOKER() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.SPADES, eRank.THREE));
+		SH.add(new Card(eSuit.SPADES, eRank.SIX));
+		SH.add(new Card(eSuit.JOKER, eRank.JOKER));
+		SH.add(new Card(eSuit.DIAMONDS, eRank.EIGHT));
+		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected TwoPair, but returned somethine else;", 20,
+				h.getHandStrength());
+	}	
+	public void HIGHCARD() {
+		ArrayList<Card> SH = new ArrayList<Card>();
+		SH.add(new Card(eSuit.SPADES, eRank.THREE));
+		SH.add(new Card(eSuit.SPADES, eRank.SIX));
+		SH.add(new Card(eSuit.CLUBS, eRank.EIGHT));
+		SH.add(new Card(eSuit.DIAMONDS, eRank.FOUR));
+		SH.add(new Card(eSuit.HEARTS, eRank.TWO));
+
+		Hand h = Hand.EvalHand(SH);
+		assertEquals("Expected TwoPair, but returned somethine else;", 20,
+				h.getHandStrength());
+	}
 
 }
